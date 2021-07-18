@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import {
 import {icons, SIZES, COLORS, FONTS} from '../constants';
 import Carousel from 'react-native-banner-carousel-updated';
 import StarRating from 'react-native-star-rating';
+import Geolocation from '@react-native-community/geolocation';
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 230;
@@ -22,7 +23,47 @@ const Home = ({navigation}) => {
     'https://salt.tikicdn.com/ts/banner/48/b5/92/f903628ba095856df93c83a191258a47.png   ',
     'https://salt.tikicdn.com/ts/banner/48/b5/92/f903628ba095856df93c83a191258a47.png',
   ]);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  const [address, setAddress] = useState()
+  const [isLoading, setLoading] = useState(true);
 
+    Geolocation.getCurrentPosition(
+      position => {
+        const initialPosition = JSON.stringify(position);
+        console.log(position.coords.latitude);
+        setLat(position.coords.latitude);
+        setLng(position.coords.longitude);
+      },
+      error => Alert.alert('Error', JSON.stringify(error)),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+    );
+
+    const getAddress = async (latitude, longitude) =>{
+      try {
+        const url = (`https://reverse.geocoder.ls.hereapi.com/6.2/reversegeocode.json?apiKey=B5FYMmEdbf5LUgZ_pxxh5GG91svQ_S64aZ8RxQgRkSk&mode=retrieveAddresses&prox=${latitude},${longitude}`);
+        const response = await fetch(url);
+        const json = await response.json();
+        console.log(url)
+        try {
+          const address = json.Response.View[0].Result[0].Location.Address;
+          setAddress(json.Response.View[0].Result[0].Location.Address.Subdistrict+', '+address.District+', '+json.Response.View[0].Result[0].Location.Address.Label);
+        } catch (error) {
+          
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    useEffect(() => {
+      console.log("log lan 1"+lat)
+      getAddress(lat, lng);
+    }, [lat, lng]);
+  
+    
   const bookOtherWordsForHome = {
     id: 1,
     bookName: 'Other Words For Home',
@@ -207,7 +248,7 @@ const Home = ({navigation}) => {
   function renderHeader() {
     return (
       <View style={{flexDirection: 'row', height: 50}}>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
           <View
             style={{
               width: '100%',
@@ -215,8 +256,11 @@ const Home = ({navigation}) => {
               backgroundColor: '#fff',
               alignItems: 'center',
               justifyContent: 'center',
+              borderBottomWidth:1,
+              borderBottomColor: COLORS.lightGray
             }}>
-            <Text style={{...FONTS.h3}}></Text>
+            <Text style={{...FONTS.h5, alignItems:'flex-start'}}>Giao đến</Text>
+            <Text style={{...FONTS.h4}} numberOfLines={1}>{address}</Text>
           </View>
         </View>
       </View>
@@ -295,7 +339,7 @@ const Home = ({navigation}) => {
                   }}>
                   {item.bookName}
                 </Text>
-                <View style={{width: 120, paddingVertical:5}}>
+                <View style={{width: 120, paddingVertical: 5}}>
                   <StarRating
                     fullStarColor={COLORS.primary}
                     starSize={25}
@@ -467,10 +511,7 @@ const Home = ({navigation}) => {
       </View>
       <View style={{height: 500}}>
         <ScrollView style={{marginTop: SIZES.radius}}>
-          {/* Books Section */}
           <View>{renderMyBookSection(myBook)}</View>
-          <View>{renderMyBookSection(myBook)}</View>
-          {/* Categories Section */}
           <View style={{marginTop: SIZES.padding}}>
             <View>{renderCategoryHeader()}</View>
             <View>{renderCategoryData()}</View>

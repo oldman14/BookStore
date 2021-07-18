@@ -19,7 +19,7 @@ const Tabs = () => {
         initialRouteName="Home"
         activeColor="#f0edf6"
         inactiveColor="#3e2465"
-        barStyle={{ backgroundColor: '#694fad' }}
+        barStyle={{ backgroundColor: '#fff' }}
         >
             <Tab.Screen name="Home" component={Home}
                 options={{
@@ -27,7 +27,7 @@ const Tabs = () => {
                         <MaterialCommunityIcons
                             name="home"
                              style={{
-                            color: focused ? COLORS.primary : COLORS.secondary
+                            color: focused ? COLORS.primary : COLORS.darkgray
                              }}
                             size={26}
                         />    
@@ -41,7 +41,7 @@ const Tabs = () => {
                     <MaterialCommunityIcons
                         name="cards-heart"
                          style={{
-                        color: focused ? '#f90' : '#fff'
+                            color: focused ? COLORS.primary : COLORS.darkgray
                          }}
                         size={26}
                     />    
@@ -55,7 +55,7 @@ const Tabs = () => {
                     <MaterialCommunityIcons
                         name="cart"
                          style={{
-                        color: focused ? '#f90' : '#fff'
+                            color: focused ? COLORS.primary : COLORS.darkgray
                          }}
                         size={26}
                     />    
