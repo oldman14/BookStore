@@ -115,7 +115,7 @@ const Home = ({navigation}) => {
     price: 45000,
     description:
       'This sketchbook for kids is the perfect tool to improve your drawing skills! Designed to encourage kids around the world to express their uniqueness through drawing, sketching or doodling, this sketch book is filled with 110 high quality blank pages for creations. Add some fun markers, crayons, and art supplies and you have the perfect, easy gift for kids!',
-    backgroundColor: 'rgba(119,77,143,0.9)',
+    backgroundColor: 'rgba(247,239,219,0.9)',
     navTintColor: '#FFF',
   };
 
@@ -351,7 +351,7 @@ const Home = ({navigation}) => {
                 </View>
 
                 <Text style={{...FONTS.h3, color: COLORS.black}}>
-                  {item.author}
+                  {item.author} 
                 </Text>
               </View>
 
