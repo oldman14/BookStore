@@ -192,7 +192,7 @@ const Home = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <Text style={{...FONTS.h2, color: COLORS.black}}>My Book</Text>
+          <Text style={{...FONTS.h2, color: COLORS.black}}>Flash Sale</Text>
 
           <TouchableOpacity onPress={() => console.log('See More')}>
             <Text

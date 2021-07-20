@@ -1,9 +1,7 @@
 import {books} from '../../screens/Data'
-const cartItems = (state = books, action) => {
+const initialState = [];
+const cartItems = (state = initialState, action) => {
     switch (action.type) {
-        case 'ADD_DATA':{
-            
-        }
         case 'ADD_CART':
             return [...state, action.payload]    
         case 'DELETE_CART':

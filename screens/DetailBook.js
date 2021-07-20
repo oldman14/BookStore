@@ -140,13 +140,13 @@ const DetailBook = ({route, navigation, props}) => {
           <Text style={{...FONTS.h2, color: book.navTintColor, textAlign: 'center'}}>
             {book.bookName}
           </Text>
-          <View style={{paddingVertical: 5}}>
+          <View style={{paddingVertical: 5, width: 140, alignSelf:"center"}}>
             <StarRating
               fullStarColor={COLORS.primary}
-              starSize={25}
+              starSize={20}
               disabled={false}
               maxStars={5}
-              rating={star}
+              rating={book.rating}
               selectedStar={rating => setStar(rating)}></StarRating>
           </View>
           <Text style={{...FONTS.h2, color: book.navTintColor, textAlign:'center'}}>
@@ -248,7 +248,7 @@ const DetailBook = ({route, navigation, props}) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          onPress={() => dispatch({type:"ADD_CART", payload:books})}>
+          onPress={() => dispatch({type:"ADD_CART", payload:book})}>
           <Text style={{...FONTS.h4, color: COLORS.white}}>
             Mua ngay
           </Text>
