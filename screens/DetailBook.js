@@ -9,10 +9,11 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
+import {books} from './Data'
 import {FONTS, COLORS, SIZES, icons} from '../constants';
 import Carousel from 'react-native-banner-carousel-updated';
 import StarRating from 'react-native-star-rating';
-
+import {connect, useDispatch} from 'react-redux'
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 230;
 
@@ -29,15 +30,13 @@ const LineDivider = () => {
   );
 };
 
-const DetailBook = ({route, navigation}) => {
+const DetailBook = ({route, navigation, props}) => {
   const [book, setBook] = React.useState(null);
+  const dispatch = useDispatch()
 
-  const [scrollViewWholeHeight, setScrollViewWholeHeight] = React.useState(1);
-  const [scrollViewVisibleHeight, setScrollViewVisibleHeight] =
     React.useState(0);
   const [star, setStar] = useState(5);
 
-  const indicator = new Animated.Value(0);
 
   React.useEffect(() => {
     let {book} = route.params;
@@ -249,7 +248,7 @@ const DetailBook = ({route, navigation}) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          onPress={() => console.log('Mua ngay')}>
+          onPress={() => dispatch({type:"ADD_CART", payload:books})}>
           <Text style={{...FONTS.h4, color: COLORS.white}}>
             Mua ngay
           </Text>
@@ -259,7 +258,6 @@ const DetailBook = ({route, navigation}) => {
       </View>
     );
   }
-
   if (book) {
     return (
       <View style={{flex: 1, backgroundColor: COLORS.lightGray}}>
@@ -274,4 +272,9 @@ const DetailBook = ({route, navigation}) => {
   }
 };
 
-export default DetailBook;
+const mapDispatchToProps = (dispatch) => {
+  return {
+      addItemToCart: (book) => dispatch({ type: 'ADD_CART', payload: book })
+  }
+}
+export default connect(null, mapDispatchToProps)(DetailBook);
