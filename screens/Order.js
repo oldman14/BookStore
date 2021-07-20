@@ -1,10 +1,12 @@
 import React, {useEffect} from 'react';
 import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {icons, SIZES, COLORS, FONTS} from '../constants';
 
-const Order = props => {
+const Order = () => {
   const product = useSelector(state => state);
+  const dispatch = useDispatch()
+    console.log(product)
   useEffect(() => {
     console.log(product);
   }, [product]);
@@ -26,7 +28,7 @@ const Order = props => {
             }}
           />
         </View>
-        <View flexDirection="column" style={{padding: 8}}>
+        <View flexDirection="column" style={{padding: 8, }}>
           <Text style={{fontSize: SIZES.h3, fontWeight: 'bold'}}>
             {item.bookName}
           </Text>
@@ -55,7 +57,6 @@ const Order = props => {
                 1
               </Text>
             </View>
-
             <TouchableOpacity
               style={{
                 backgroundColor: COLORS.secondary,
@@ -68,6 +69,15 @@ const Order = props => {
               }}
               onPress={() => console.log('Bookmark')}>
               <Text>-</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={{justifyContent:'center', paddingLeft:100}}
+                onPress={() => dispatch({type:"DELETE_CART", payload:item})}
+>
+               <Image
+               style={{width:30, height:30}}
+                    source={require('../assets/icons/icons8_delete.png')}
+               />
             </TouchableOpacity>
           </View>
         </View>
